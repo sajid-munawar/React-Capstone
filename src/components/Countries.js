@@ -6,7 +6,7 @@ const Countries = () => {
     const dispatch = useDispatch();
     const countries = useSelector(state => state.countries);
     useEffect(() => {
-        if (countries.length !==1){
+        if (!countries.length){
             dispatch(getCountries());
         }
     }, [countries.length, dispatch]);
