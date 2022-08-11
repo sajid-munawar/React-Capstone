@@ -3,13 +3,13 @@ import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaArrowLeft, FaMicrophoneAlt } from 'react-icons/fa';
 import { AiFillSetting } from 'react-icons/ai';
-import { getCountriesApi } from '../redux/countries';
+import { getCountries } from '../redux/countryAction';
 
 function Country() {
     const countries = useSelector((state) => state.countries);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getCountriesApi());
+        dispatch(getCountries());
     }, [dispatch]);
     const { name } = useParams();
     const index = countries.findIndex((item) => item.name.common === name);
