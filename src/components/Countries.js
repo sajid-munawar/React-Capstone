@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountries, searchCountry } from '../redux/countryAction';
 
@@ -22,10 +23,12 @@ const Countries = () => {
             <input type="text" name='title' />
             <button type="submit"> Search </button>
         </form>
-        {countries && countries.map(country => <div key={country.name.common}>
+        {countries && countries.map(country => <Link to={`/details/${country.name.common}`} className="big">
+            <div key={country.name.common}>
             {country.name.common}
             <img className="flag" src={country.flags.png} alt="flag" />
-        </div>)}
+            </div>
+        </Link>)}
     </>);
 }
  
