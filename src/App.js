@@ -1,17 +1,18 @@
 import './App.css';
-import {BrowserRouter, Routes, Route } from "react-router-dom";
-import Country from './components/Country';
-import Countries from './components/Countries';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Countries from './Component/Countries';
+import Details from './Component/Details';
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Countries />} />
-          <Route path="/details/:name" element={<Country />} />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Countries />} />
+          <Route path="/details/:name" element={<Details />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
+
     </div>
   );
 }
