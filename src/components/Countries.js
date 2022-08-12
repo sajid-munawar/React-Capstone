@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCountries, searchCountry } from '../redux/countryAction';
+import Continent from './Continent';
 
 const Countries = () => {
     const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Countries = () => {
         e.target.reset()
     }
     return (<>
+        <Continent />
         <form action="#" onSubmit={(e) => handleSubmit(e)} >
             <input type="text" name='title' />
             <button type="submit"> Search </button>
