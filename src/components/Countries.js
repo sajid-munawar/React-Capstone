@@ -1,37 +1,67 @@
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCountries, searchCountry } from '../redux/countryAction';
+import { getCountriesApi, getSearchedCountries } from '../redux/countries';
 import Continent from './Continent';
 
-const Countries = () => {
+function Countries() {
+    const countries = useSelector((state) => state.countries);
     const dispatch = useDispatch();
-    const countries = useSelector(state => state.countries);
     useEffect(() => {
-        if (!countries.length){
-            dispatch(getCountries());
-        }
-    }, [countries.length, dispatch]);
-    console.log(countries); 
-    const handleSubmit = (e) => {
+        dispatch(getCountriesApi());
+    }, [dispatch]);
+    const [search, setSearch] = useState('');
+    const handleChange = (e) => {
+        setSearch(e.target.value);
+    };
+    const handleSearch = (e) => {
         e.preventDefault();
-        console.log(e.target.title.value);
-        dispatch(searchCountry(e.target.title.value));
-        e.target.reset()
-    }
-    return (<>
-        <Continent />
-        <form action="#" onSubmit={(e) => handleSubmit(e)} >
-            <input type="text" name='title' />
-            <button type="submit"> Search </button>
-        </form>
-        {countries && countries.map(country => <Link to={`/details/${country.name.common}`} className="big">
-            <div key={country.name.common}>
-            {country.name.common}
-            <img className="flag" src={country.flags.png} alt="flag" />
+        dispatch(getSearchedCountries(search));
+    };
+    const showAll = (e) => {
+        e.preventDefault();
+        dispatch(getCountriesApi());
+        setSearch('');
+    };
+
+    const renderCountry = countries.map((country) => (
+        <div key={country.name.common}>
+            <Link to={`/details/${country.name.common}`} className="big">
+
+                <img className="flag" src={country.flags.png} alt="flag" />
+                <div className="name-population">
+                    <p className="name-p noto">{country.name.common.toUpperCase()}</p>
+                    <p className="name-p noto">
+                        {' '}
+                        POPULATION:
+                        {country.population.toLocaleString()}
+                    </p>
+                </div>
+            </Link>
+
+        </div>
+    ));
+    return (
+        <div>
+            <Continent />
+            <div id="search" className="input-group">
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="search country"
+                    onChange={handleChange}
+                    value={search}
+                />
+                <button className="btn btn-light" onClick={handleSearch} type="button">
+                    Search
+                </button>
+                <button className="btn btn-light" onClick={showAll} type="button">
+                    SEE ALL COUNTRIES
+                </button>
             </div>
-        </Link>)}
-    </>);
+            <div className="all-countries">{renderCountry}</div>
+        </div>
+    );
 }
- 
+
 export default Countries;
